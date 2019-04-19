@@ -8,8 +8,12 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "hammerjs": "^2.0.8",
+    "lodash.debounce": "^4.0.8",
+    "lodash.throttle": "^4.1.1",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
+    "vue2-hammer": "^2.1.2",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
