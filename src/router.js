@@ -5,7 +5,7 @@ import Home from './views/Home.vue'
 Vue.use(Router)
 
 export default new Router({
-  base: '/test/medical_material/',
+  base: '/upf/newmedia/2019_data/medical_material/',
   routes: [
     {
       path: '/',
