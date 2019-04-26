@@ -1,12 +1,12 @@
 <template>
-  <div class="end">
-    <h1>Its Page2</h1>
+  <div class="page9">
+    <h1>Its Page9</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'end',
+  name: 'page9',
   props: {
     msg: String
   },
@@ -18,7 +18,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.end {
+.page9 {
 
 }
 </style>
