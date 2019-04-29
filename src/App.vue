@@ -2,7 +2,7 @@
   <div id="app">
     <div class="page" :class="{enterBackground: isEnter}">
       <div class="logo-subtitle">
-        <i class="udn-icon udn-icon-logo"></i><span class="subtitle">白色巨塔謊言</span>
+        <i class="udn-icon udn-icon-logo" ></i><span class="subtitle">白色巨塔謊言</span>
       </div>
       <div class="container headerContent">
         <div class="col">
@@ -25,18 +25,18 @@
         <div class="col">
         <div class="routerWrapper">
           <transition  mode="out-in" :name="shiftPosition">   
-              <router-view />
+              <router-view @changeRoute="changeBackground" />
           </transition>
         </div>
         </div>
       </div>
-      <div class="container footerContent">
-        <div class="col">
-          <footer class="footer">
-          
-          </footer>
+      <footer class="footer">
+            <div class="last"><i class="arrow i-arrow4-left"></i></div>
+        <div class="share">
+          <i class="line i-line"></i><i class="facebook i-facebook-1"></i>
         </div>
-      </div>
+        <div class="">下一頁<i class="arrow i-arrow4-right"></i></div>
+      </footer>
     </div>
   </div>
 </template>
@@ -57,10 +57,6 @@ export default {
         {
           path: '/',
           name: 'enter'
-        },
-        {
-          path: '/1',
-          name: 'page1'
         },
         {
           path: '/2',
@@ -129,7 +125,7 @@ export default {
       ],
       nav: [
         {
-          page: '/1',
+          page: '/',
           title: '拋棄式醫材重複用',
           isTrack: true
         },
@@ -202,8 +198,28 @@ export default {
       router.push(vm.pages[vm.currentpage].path)
       event.preventDefault();
     }, 500),
+    changePage: function(position){
+
+      if ( position == 'next' ) {
+        vm.shiftPosition = 'fadeLeft'
+        vm.currentpage += 1      
+      }
+      if ( position == 'last' ) {
+        vm.shiftPosition = 'fadeRight'
+        vm.currentpage -= 1      
+      }
+
+    },
     jumpPage (whichPage, whichPageIndex) {
       router.push(whichPage)
+    },
+    changeBackground: function(routeInfo){
+      console.log(routeInfo)
+      if ( routeInfo.name == 'enter' || routeInfo.name == 'end') {
+        this.isEnter = true
+      } else {
+        this.isEnter = false
+      }
     }
   },
   watch: {
@@ -218,12 +234,17 @@ export default {
     // },
     '$route' (to, from) {
       // 應該物件去
-      let vm = this
-      vm.pages.forEach(function(item, index){
-        if(item.page == to.path) {
-          vm.currentpage = index
-        }
-      })
+      // let vm = this
+      // if ( to.name !== 'page1' || to.name !== 'end') {
+      //   this.isEnter = false
+      // } else {
+      //   this.isEnter = true
+      // }
+      // vm.pages.forEach(function(item, index){
+      //   if(item.page == to.path) {
+      //     vm.currentpage = index
+      //   }
+      // })
     }
   },
   components: {
@@ -241,8 +262,10 @@ html {
 }
 #app {
   .page {
+    background-color: #f2f1ed;
     .logo-subtitle {  
       line-height: 40px;
+      color: white;
       .udn-icon-logo{
         vertical-align: middle;
         font-size: 26px;
@@ -298,7 +321,6 @@ html {
     .routerWrapper {
       min-height: 85vh;
       backface-visibility: hidden;
-      color: white;
       .fadeLeft-enter-active {
         // transition: .5s shiftLeft;
         animation: .1s shiftLeft;
@@ -352,6 +374,23 @@ html {
         }
       }
     }
+    .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      color: #333333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .line, .facebook {
+        font-size: 36px;
+        cursor: pointer;
+      }
+      .arrow {
+        font-size: 15px;
+        cursor: pointer;
+      }
+    }
   }
   .enterBackground {
     background-size: cover;
@@ -365,6 +404,9 @@ html {
     }
     @media screen and (min-width: 1024px) {
       background-image: url("../public/images/index_cover_web.jpg");
+    }
+    .footer {
+      color: white;
     }
   }
   

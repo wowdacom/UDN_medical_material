@@ -12,6 +12,9 @@ export default {
   name: 'enter',
   components: {
 
+  },
+  mounted () {
+    this.$emit('changeRoute', this.$route);
   }
 }
 </script>

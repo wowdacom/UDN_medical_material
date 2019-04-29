@@ -1,6 +1,7 @@
 <template>
   <div class="page16">
-    <h1>Its Page16</h1>
+    <h4><span class="mark">醫院應揭露醫材收費細目</span></h4>
+    <p>梁金銅建議，醫院應明列手術中器具收費細目，讓醫師好告知哪些為一次性、哪些可選擇一次性或多次性的耗材，費用差異，讓患者在簽署自費醫材同意書時，可自主選擇，以免後續糾紛</p>
   </div>
 </template>
 
@@ -11,7 +12,7 @@ export default {
     msg: String
   },
   mounted () {
-    console.log(this.$route)
+    this.$emit('changeRoute', this.$route);
   }
 }
 </script>
@@ -19,6 +20,13 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .page16 {
-
+  margin-top: 45px;
+  h4 {
+    margin-bottom: 26px;
+  }
+  .mark {
+    background-color: #e0dfd5;
+    color: black;
+  }
 }
 </style>

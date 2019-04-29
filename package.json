@@ -7,11 +7,15 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.17",
+    "@fortawesome/free-brands-svg-icons": "^5.8.1",
+    "@fortawesome/vue-fontawesome": "^0.1.6",
     "bootstrap": "^4.3.1",
     "core-js": "^2.6.5",
     "hammerjs": "^2.0.8",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
+    "udn-newmedia-utils": "^1.1.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vue2-hammer": "^2.1.2",

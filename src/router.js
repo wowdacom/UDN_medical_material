@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Enter from './views/Enter.vue'
+import End from './views/End.vue'
 
 Vue.use(Router)
 
@@ -11,14 +12,6 @@ export default new Router({
       path: '/',
       name: 'enter',
       component: Enter
-    },
-    {
-      path: '/1',
-      name: 'page1',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/Page1.vue')
     },
     {
       path: '/2',
@@ -146,7 +139,7 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/End.vue')
+      component: End
     },
     { path: '/*', redirect: { name: 'enter' }}
   ]

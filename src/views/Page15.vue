@@ -48,7 +48,7 @@ export default {
     msg: String
   },
   mounted () {
-    console.log(this.$route)
+    this.$emit('changeRoute', this.$route);
   }
 }
 </script>
