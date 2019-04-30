@@ -20,6 +20,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .page12 {
+  padding: 38px 0 154px;
   .content-subtitle {
     color: #f02d3a;
   }

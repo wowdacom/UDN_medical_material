@@ -1,19 +1,19 @@
 <template>
   <div id="app">
-    <div class="page" :class="{enterBackground: isEnter}">
+    <div class="page" :class="{enterBackground: isEnter, endBackground: isEnd}">
       <div class="logo">
         <i class="udn-icon udn-icon-logo" ></i>
       </div>
       <div class="container headerContent">
         <div class="col">
           <header class="header">
-          <div class="subtitle">白色巨塔謊言</div>
+          <div class="subtitle">白色巨塔謊言—</div>
           <h1 class="main-title">
-            黑心二手醫材<br>病患自費成冤大頭
+            黑心二手醫材<br><span v-if="isEnter">病患自費成冤大頭</span>
           </h1>
           <div class="nav-warpper">
             <ul class="lists">
-              <li class="list" @click="jumpPage(item.page)" :key="item.page" v-for="item in nav">
+              <li class="list" :class="{isFocus: item.isTrack}" @click="jumpPage(item.page, index)" :key="item.page" v-for="(item, index) in nav">
                 {{ item.title }}
               </li>
             </ul>
@@ -21,19 +21,21 @@
         </header>
         </div>
       </div>
-      <div class="container">
-        <div class="col">
-        <div class="routerWrapper">
-          <transition  mode="out-in" :name="shiftPosition">   
-              <router-view @changeRoute="changeBackground" />
-          </transition>
-        </div>
+      <div class="SectionContent">
+        <div class="container">
+          <div class="col">
+          <div class="routerWrapper">
+            <transition  mode="out-in" :name="shiftPosition">   
+                <router-view @changeRoute="changeBackground" />
+            </transition>
+          </div>
+          </div>
         </div>
       </div>
       <footer class="footer">
         <div @click="changePage('last')" class="last"><i class="arrow arrow-left i-arrow4-left"></i><span class="last-ch">上一頁</span></div>
         <div class="share">
-          <i class="line i-line"></i><i class="facebook i-facebook-1"></i>
+          <i @click="LineShare(href)" class="line i-line"></i><i @click="FacebookShare(href)" class="facebook i-facebook-1"></i>
         </div>
         <div @click="changePage('next')" class="next"><span class="next-ch">下一頁</span><i class="arrow arrow-right i-arrow4-right"></i></div>
       </footer>
@@ -44,15 +46,20 @@
 import router from './router'
 import _debounce from 'lodash.debounce'
 import Hammer from  'hammerjs'
+import Utils from 'udn-newmedia-utils'
+import setProps from './mixin/setProps.js'
 
 export default {
   name: 'app',
+  mixins: [setProps],
   data () {
     return {
+      href: 'https://nmdap.udn.com.tw/upf/newmedia/2019_data/medical_material/',
       totalpage: 3,
       currentpage: 0,
       currentpageName: '',
       isEnter: true,
+      isEnd: false,
       pages: [
         {
           path: '/',
@@ -126,41 +133,49 @@ export default {
       nav: [
         {
           page: '/',
+          name: 'enter',
           title: '拋棄式醫材重複用',
           isTrack: true
         },
         {
           page: '/4',
+          name: 'page4',
           title: '自費醫材價差黑幕',
           isTrack: false
         },
         {
           page: '/7',
+          name: 'page7',
           title: '黑心醫院重複使用10次',
           isTrack: false
         },
         {
           page: '/8',
+          name: 'page8',
           title: '台大醫曝真相',
           isTrack: false
         },
         {
           page: '/10',
+          name: 'page10',
           title: '感染愛滋風險',
           isTrack: false
         },
         {
           page: '/11',
+          name: 'page11',
           title: '病人如待宰羔羊',
           isTrack: false
         },
         {
           page: '/15',
+          name: 'page15',
           title: '民眾如何自保',
           isTrack: false
         },
         {
           page: '/17',
+          name: 'end',
           title: '政府能解決嗎',
           isTrack: false
         },
@@ -185,59 +200,114 @@ export default {
   methods: {
     onSwipe: _debounce(function(event){
       let vm  = this
-      if (vm.currentpage < vm.pages.length - 1 && event.direction == 2) {
+      console.log(event)
+      if (vm.currentpage < vm.pages.length && event.direction == 2) {
         
         vm.shiftPosition = 'fadeLeft'
         vm.currentpage += 1
-            
+        router.push(vm.pages[vm.currentpage - 1].path)
+        event.preventDefault();
       }
       if (vm.currentpage > 0 && event.direction == 4) {
         vm.shiftPosition = 'fadeRight'
-        vm.currentpage -= 1      
+        vm.currentpage -= 1
+        router.push(vm.pages[vm.currentpage - 1].path)
+        event.preventDefault();   
       }
-      console.log("onSwipe:", this.currentpage)
-      router.push(vm.pages[vm.currentpage - 1].path)
-      event.preventDefault();
+    
     }, 500),
     changePage: function(position){
       let vm  = this
-      if (vm.currentpage < vm.pages.length - 1 && position === 'next') {
+      if (vm.currentpage < vm.pages.length && position === 'next') {
         vm.shiftPosition = 'fadeLeft'
-        vm.currentpage += 1  
+        vm.currentpage += 1
+        this.jumpPage(vm.pages[vm.currentpage - 1].path)  
+        event.preventDefault();
       }
       if (vm.currentpage > 0 &&  position === 'last') {
         vm.shiftPosition = 'fadeRight'
-        vm.currentpage -= 1      
+        vm.currentpage -= 1 
+        this.jumpPage(vm.pages[vm.currentpage - 1].path)
+        event.preventDefault();     
       }
-      router.push(vm.pages[vm.currentpage - 1].path)
-      event.preventDefault();
-      console.log("changePage:", this.currentpage)
     },
-    jumpPage (whichPage, whichPageIndex) {
+    jumpPage (whichPage) {
+      console.log(whichPage)
       router.push(whichPage)
+      let vm = this
+      this.nav.forEach(function(item, index){
+        if (item.page === whichPage) {
+          vm.nav[index].isTrack = true
+        } else {
+          vm.nav[index].isTrack = false
+        }
+      })
       console.log("jumpPage:", this.currentpage)
     },
     changeBackground: function(routeInfo){
-      this.currentpage = Number(routeInfo.path.split("/")[1]) === 0 ? 1 : Number(routeInfo.path.split("/")[1])
-      
       console.log("changeBackground:", this.currentpage)
-      if ( routeInfo.name == 'enter' || routeInfo.name == 'end') {
+      console.log(routeInfo)
+      if ( routeInfo.name == 'enter') {
         this.isEnter = true
+        this.currentpage = 0
       } else {
         this.isEnter = false
+        this.currentpage = Number(routeInfo.path.split("/")[1])
       }
-    }
+      if ( routeInfo.name == 'end') {
+        this.isEnd = true
+        this.currentpage = this.pages.length
+      } else {
+        this.isEnd = false
+        this.currentpage = Number(routeInfo.path.split("/")[1])
+      }
+    },
+    LineShare (href) {
+          ga("newmedia.send", {
+            "hitType": "event",
+            "eventCategory": "Line Share",
+            "eventAction": "click",
+            "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [line share]"
+          })
+          if (Utils.detectMob()) {
+            // 手機
+            window.open("//line.me/R/msg/text/?" + document.querySelector('title').innerHTML + "%0D%0A%0D%0A" + document.querySelector('meta[property="og:description"]').content + "%0D%0A%0D%0A" + href)
+          } else {
+            window.open("https://lineit.line.me/share/ui?url=" + href)
+          }
+    },
+    FacebookShare (href) {
+        ga("newmedia.send", {
+          "hitType": "event",
+          "eventCategory": "Facebook Share",
+          "eventAction": "click",
+          "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [facebook share]"
+        })
+        FB.ui(
+          {
+            method: 'share_open_graph',
+            action_type: 'og.shares',
+            action_properties: JSON.stringify({
+              object: {
+                'og:url': href,
+                'og:title': '白色巨塔的謊言─黑心二手醫材濫用 病患自費成冤大頭',
+                'og:description': '你能想像花大錢使用的自費手術醫材，竟是「二手貨」？《聯合報》調查發現，不少外科手術器械為一次性耗材，但許多醫院會私下消毒後重複使用，使用次數高達5到10次，而且躺在手術檯上的病人根本不知情。',
+                'og:image': 'https://nmdap.udn.com.tw/upf/newmedia/2019_data/medical_material/meta/index_Facebook.jpg'
+              }
+            })
+          },
+          // callback
+          function(response) {
+            if (response && !response.error_message) {
+              console.log(response);
+            } else {
+              console.log(response.error_message);
+            }
+          }
+        );
+      }
   },
   watch: {
-    // currentpage: function (newValue) {
-    //   this.pages.forEach(function(item, index){
-    //     if(index < newValue + 1) {
-    //       item.isTrack = true
-    //     } else {
-    //       item.isTrack = false
-    //     }
-    //   })
-    // },
     '$route' (to, from) {
 
     //  let pathNumber = Number(to.path.split("/")[1])
@@ -276,7 +346,7 @@ html {
 }
 #app {
   .page {
-    background-color: #f2f1ed;
+    background-color: white;
     .logo {  
       line-height: 40px;
       color: white;
@@ -298,6 +368,7 @@ html {
       
     }
     .headerContent {
+      background-color: #ffffff;
       &::after {
         content: '';
         position: absolute;
@@ -308,6 +379,7 @@ html {
       }
       .col {
         .header {
+          
           .subtitle {
             font-size: 12px;
             padding-top: 15px;
@@ -322,7 +394,8 @@ html {
             }
           }
           .main-title {
-            color: #d84c4c;
+            font-size: 20px;
+            color: black;
           }
           .nav-warpper {
             position: relative;
@@ -350,64 +423,80 @@ html {
                 white-space: nowrap;
                 cursor: pointer;
               }
+              .isFocus {
+                position: relative;
+                &::after {
+                  content: '';
+                  position: absolute;
+                  bottom: -16px;
+                  left: 0;
+                  display: block;
+                  height: 4px;
+                  width: 100%;
+                  background: #333333;
+                }
+              }
             }
           }
         }
       }
     }
-    .routerWrapper {
-      min-height: 85vh;
-      backface-visibility: hidden;
-      .fadeLeft-enter-active {
-        // transition: .5s shiftLeft;
-        animation: .1s shiftLeft;
-      }
-      .fadeLeft-leave-active {
-        // transition: .5s shiftLeft;
-        animation: .1s shiftLeftOut;
-      }
-      // .fadeLeft-enter, .fadeLeft-leave-to /* .fade-leave-active below version 2.1.8 */ {
-      //   opacity: 0;
-      // }
-      @keyframes shiftLeft{
-        0% {
-          transform: translateX(150%);    
+    .SectionContent {
+      background-color: #f2f1ed;
+      .routerWrapper {
+        min-height: 85vh;
+        backface-visibility: hidden;
+        .fadeLeft-enter-active {
+          // transition: .5s shiftLeft;
+          animation: .1s shiftLeft;
         }
-        100% {
-          transform: translateX(0%);
+        .fadeLeft-leave-active {
+          // transition: .5s shiftLeft;
+          animation: .1s shiftLeftOut;
         }
-      }
-      @keyframes shiftLeftOut{
-        0% {
-          transform: translateX(0%);    
+        // .fadeLeft-enter, .fadeLeft-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        //   opacity: 0;
+        // }
+        @keyframes shiftLeft{
+          0% {
+            transform: translateX(150%);    
+          }
+          100% {
+            transform: translateX(0%);
+          }
         }
-        100% {
-          transform: translateX(-150%);
+        @keyframes shiftLeftOut{
+          0% {
+            transform: translateX(0%);    
+          }
+          100% {
+            transform: translateX(-150%);
+          }
         }
-      }
-      .fadeRight-enter-active {
-        animation: .1s shiftRight;
-      }
-      .fadeRight-leave-active {
-        animation: .1s shiftRightOut;
-      }
-      .fadeRight-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-        opacity: 0;
-      }
-      @keyframes shiftRight{
-        0% {
-          transform: translateX(-150%);    
+        .fadeRight-enter-active {
+          animation: .1s shiftRight;
         }
-        100% {
-          transform: translateX(0%);
+        .fadeRight-leave-active {
+          animation: .1s shiftRightOut;
         }
-      }
-      @keyframes shiftRightOut{
-        0% {
-          transform: translateX(0%);    
+        .fadeRight-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+          opacity: 0;
         }
-        100% {
-          transform: translateX(150%);
+        @keyframes shiftRight{
+          0% {
+            transform: translateX(-150%);    
+          }
+          100% {
+            transform: translateX(0%);
+          }
+        }
+        @keyframes shiftRightOut{
+          0% {
+            transform: translateX(0%);    
+          }
+          100% {
+            transform: translateX(150%);
+          }
         }
       }
     }
@@ -419,7 +508,8 @@ html {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 47px;
+      padding: 17px 0 47px;
+      background-color: #ffffff;
       @media screen and (max-width: 374px) {
                 
       }
@@ -539,7 +629,7 @@ html {
       }
     }
   }
-  .enterBackground {
+  .enterBackground, .endBackground {
     background-size: cover;
     background-image: url("../public/images/index_cover_mob.jpg");
     background-repeat: no-repeat;
@@ -558,6 +648,7 @@ html {
       }
     }
     .headerContent {
+      background-color: transparent;
       &::after {
         content: '';
         position: absolute;
@@ -568,13 +659,20 @@ html {
       }
       .col {
         .header {
+          .main-title {
+            font-weight: 900;
+            font-size: 35px;
+            color: #d84c4c;
+          }
           .subtitle {
             color: #ffffff;
           }
         }
       }
     }
-    
+    .SectionContent {
+      background-color: transparent;
+    }
     .footer {
       color: #ffffff;
       background-color: black;
@@ -582,8 +680,27 @@ html {
         font-size: 36px;
         cursor: pointer;
       }
+      .last {
+
+      }
+      .next {
+
+      }
     }
   }
-  
+  .enterBackground {
+    .footer {
+      .last {
+        display: none;
+      }
+    }
+  }
+  .endBackground {
+    .footer {
+      .next {
+        display: none;
+      }
+    }
+  }
 }
 </style>

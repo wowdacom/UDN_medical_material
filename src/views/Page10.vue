@@ -31,6 +31,7 @@ export default {
 @import '../assets/baseSCSS/theme.scss';
 
 .page10 {
+  padding: 38px 0 154px;
   .content-title {
 
   }

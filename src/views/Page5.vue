@@ -29,6 +29,7 @@ export default {
 <style scoped lang="scss">
 @import '../assets/baseSCSS/theme.scss';
 .page5 {
+  padding: 38px 0 154px;
   .left {
     margin-top: 20px;
   }

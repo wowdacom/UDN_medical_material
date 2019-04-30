@@ -31,6 +31,6 @@ export default {
 @import '../assets/baseSCSS/theme.scss';
 
 .page4 {
-  
+  padding: 38px 0 154px;
 }
 </style>

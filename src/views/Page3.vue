@@ -26,6 +26,6 @@ export default {
 @import '../assets/baseSCSS/theme.scss';
 
 .page3 {
-
+  padding: 38px 0 154px;
 }
 </style>

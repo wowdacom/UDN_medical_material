@@ -21,7 +21,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .page9 {
-  margin-top: 46px;
+  padding: 38px 0 154px;
   .mark-pag9 {
     font-weight: bold;
   }

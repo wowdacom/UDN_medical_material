@@ -20,7 +20,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .page16 {
-  margin-top: 45px;
+  padding: 38px 0 154px;
   h4 {
     margin-bottom: 26px;
   }
