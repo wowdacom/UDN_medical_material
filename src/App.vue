@@ -1,19 +1,19 @@
 <template>
   <div id="app">
     <div class="page" :class="{enterBackground: isEnter}">
-      <div class="logo-subtitle">
-        <i class="udn-icon udn-icon-logo" ></i><span class="subtitle">白色巨塔謊言</span>
+      <div class="logo">
+        <i class="udn-icon udn-icon-logo" ></i>
       </div>
       <div class="container headerContent">
         <div class="col">
           <header class="header">
-          
+          <div class="subtitle">白色巨塔謊言</div>
           <h1 class="main-title">
             黑心二手醫材<br>病患自費成冤大頭
           </h1>
           <div class="nav-warpper">
             <ul class="lists">
-              <li class="list" :key="item.page" v-for="item in nav">
+              <li class="list" @click="jumpPage(item.page)" :key="item.page" v-for="item in nav">
                 {{ item.title }}
               </li>
             </ul>
@@ -31,11 +31,11 @@
         </div>
       </div>
       <footer class="footer">
-            <div class="last"><i class="arrow i-arrow4-left"></i></div>
+        <div @click="changePage('last')" class="last"><i class="arrow arrow-left i-arrow4-left"></i><span class="last-ch">上一頁</span></div>
         <div class="share">
           <i class="line i-line"></i><i class="facebook i-facebook-1"></i>
         </div>
-        <div class="">下一頁<i class="arrow i-arrow4-right"></i></div>
+        <div @click="changePage('next')" class="next"><span class="next-ch">下一頁</span><i class="arrow arrow-right i-arrow4-right"></i></div>
       </footer>
     </div>
   </div>
@@ -195,26 +195,32 @@ export default {
         vm.shiftPosition = 'fadeRight'
         vm.currentpage -= 1      
       }
-      router.push(vm.pages[vm.currentpage].path)
+      console.log("onSwipe:", this.currentpage)
+      router.push(vm.pages[vm.currentpage - 1].path)
       event.preventDefault();
     }, 500),
     changePage: function(position){
-
-      if ( position == 'next' ) {
+      let vm  = this
+      if (vm.currentpage < vm.pages.length - 1 && position === 'next') {
         vm.shiftPosition = 'fadeLeft'
-        vm.currentpage += 1      
+        vm.currentpage += 1  
       }
-      if ( position == 'last' ) {
+      if (vm.currentpage > 0 &&  position === 'last') {
         vm.shiftPosition = 'fadeRight'
         vm.currentpage -= 1      
       }
-
+      router.push(vm.pages[vm.currentpage - 1].path)
+      event.preventDefault();
+      console.log("changePage:", this.currentpage)
     },
     jumpPage (whichPage, whichPageIndex) {
       router.push(whichPage)
+      console.log("jumpPage:", this.currentpage)
     },
     changeBackground: function(routeInfo){
-      console.log(routeInfo)
+      this.currentpage = Number(routeInfo.path.split("/")[1]) === 0 ? 1 : Number(routeInfo.path.split("/")[1])
+      
+      console.log("changeBackground:", this.currentpage)
       if ( routeInfo.name == 'enter' || routeInfo.name == 'end') {
         this.isEnter = true
       } else {
@@ -233,6 +239,14 @@ export default {
     //   })
     // },
     '$route' (to, from) {
+
+    //  let pathNumber = Number(to.path.split("/")[1])
+    // this.currentpage = pathNumber
+    //  if ( pathNumber === "" ) {
+    //    this.currentpage = 0
+    //  } else {
+    //    this.currentpage = pathNumber
+    //  }
       // 應該物件去
       // let vm = this
       // if ( to.name !== 'page1' || to.name !== 'end') {
@@ -263,9 +277,12 @@ html {
 #app {
   .page {
     background-color: #f2f1ed;
-    .logo-subtitle {  
+    .logo {  
       line-height: 40px;
       color: white;
+      position: fixed;
+      left: 0;
+      top: 0;
       .udn-icon-logo{
         vertical-align: middle;
         font-size: 26px;
@@ -278,42 +295,62 @@ html {
           transform: rotate(16deg);
         }
       }
-      .subtitle {
-        font-size: 12px;
-        
-      }
+      
     }
     .headerContent {
-      border-bottom: solid 0.5px #9a9a9a;
-    }
-    .header {
-      .main-title {
-        color: #d84c4c;
+      &::after {
+        content: '';
+        position: absolute;
+        width: 100vw;
+        height: 0.5px;
+        left: 0;
+        background-color: #9a9a9a;
       }
-      .nav-warpper {
-        position: relative;
-        min-height: 50px;
-        overflow-x: scroll;
-        overflow-y: hidden;
-        @media screen and (max-width: 374px) {
-          
-        }
-        @media screen and (min-width: 768px) {
-          
-        }
-        @media screen and (min-width: 1024px) {
-          overflow: hidden;
-        }
-        .lists {
-          color: #9a9a9a;
-          position: absolute;
-          left: 0;
-          display: flex;
-          .list {        
-            display: inline-block;
-            margin: 9.5px 20px 9.5px 0;
-            white-space: nowrap;
-            cursor: pointer;
+      .col {
+        .header {
+          .subtitle {
+            font-size: 12px;
+            padding-top: 15px;
+            @media screen and (max-width: 374px) {
+              
+            }
+            @media screen and (min-width: 768px) {
+              
+            }
+            @media screen and (min-width: 1024px) {
+              font-size: 15px;
+            }
+          }
+          .main-title {
+            color: #d84c4c;
+          }
+          .nav-warpper {
+            position: relative;
+            min-height: 50px;
+            overflow-x: scroll;
+            overflow-y: hidden;
+            font-weight: bold;
+            @media screen and (max-width: 374px) {
+              
+            }
+            @media screen and (min-width: 768px) {
+              
+            }
+            @media screen and (min-width: 1024px) {
+              overflow: hidden;
+            }
+            .lists {
+              color: #9a9a9a;
+              position: absolute;
+              left: 0;
+              display: flex;
+              .list {        
+                display: inline-block;
+                margin: 9.5px 20px 9.5px 0;
+                white-space: nowrap;
+                cursor: pointer;
+              }
+            }
           }
         }
       }
@@ -382,13 +419,123 @@ html {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding-bottom: 47px;
+      @media screen and (max-width: 374px) {
+                
+      }
+      @media screen and (min-width: 768px) {
+        
+      }
+      @media screen and (min-width: 1024px) {
+        padding-bottom: 53px;
+        justify-content: center;
+      }
       .line, .facebook {
-        font-size: 36px;
+        font-size: 21px;
         cursor: pointer;
       }
       .arrow {
         font-size: 15px;
         cursor: pointer;
+      }
+      .last {
+        padding-left: 20px;
+        @media screen and (max-width: 374px) {
+                
+        }
+        @media screen and (min-width: 768px) {
+          
+        }
+        @media screen and (min-width: 1024px) {
+          position: fixed;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        &:hover > .last-ch, &:hover > .arrow-left {
+            color: rgba(#e0dfd5, 1);
+        }
+        .last-ch {
+          @media screen and (max-width: 374px) {
+                  
+          }
+          @media screen and (min-width: 768px) {
+            
+          }
+          @media screen and (min-width: 1024px) {
+            position: fixed;
+            bottom: -30px;
+            left: 50%;
+            transform: translate(-50%);
+          }
+          
+          color: rgba(#e0dfd5, 0.5);
+          cursor: pointer;
+          &:hover {
+            color: rgba(#e0dfd5, 1);
+          }
+        }
+        .arrow-left {
+          color: rgba(#e0dfd5, 0.5);
+          &:hover {
+            color: rgba(#e0dfd5, 1);
+          }
+          @media screen and (max-width: 374px) {
+                  
+          }
+          @media screen and (min-width: 768px) {
+            
+          }
+          @media screen and (min-width: 1024px) {
+            font-size: 80px;
+          }
+        }
+      }
+      .next {
+        padding-right: 20px;
+        @media screen and (max-width: 374px) {
+                
+        }
+        @media screen and (min-width: 768px) {
+          
+        }
+        @media screen and (min-width: 1024px) {
+          position: fixed;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        &:hover > .next-ch, &:hover > .arrow-right {
+            color: rgba(#e0dfd5, 1);
+        }
+        .next-ch {
+          @media screen and (max-width: 374px) {
+                  
+          }
+          @media screen and (min-width: 768px) {
+            
+          }
+          @media screen and (min-width: 1024px) {
+            position: fixed;
+            bottom: -30px;
+            left: 50%;
+            transform: translate(-50%);
+          }    
+          color: rgba(#e0dfd5, 0.5);
+          cursor: pointer;
+        }
+        .arrow-right {
+          color: rgba(#e0dfd5, 0.5);
+          @media screen and (max-width: 374px) {
+                  
+          }
+          @media screen and (min-width: 768px) {
+            
+          }
+          @media screen and (min-width: 1024px) {
+            font-size: 80px;
+          }
+        }
       }
     }
   }
@@ -405,8 +552,36 @@ html {
     @media screen and (min-width: 1024px) {
       background-image: url("../public/images/index_cover_web.jpg");
     }
+    .logo {
+      .udn-icon-logo {
+        color: #ffffff;
+      }
+    }
+    .headerContent {
+      &::after {
+        content: '';
+        position: absolute;
+        width: 100vw;
+        height: 0.5px;
+        left: 0;
+        background-color: #9a9a9a;
+      }
+      .col {
+        .header {
+          .subtitle {
+            color: #ffffff;
+          }
+        }
+      }
+    }
+    
     .footer {
-      color: white;
+      color: #ffffff;
+      background-color: black;
+      .line, .facebook {
+        font-size: 36px;
+        cursor: pointer;
+      }
     }
   }
   

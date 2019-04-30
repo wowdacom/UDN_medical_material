@@ -21,6 +21,15 @@ export default {
 <style scoped lang="scss">
 .enter {
   padding-top: 44px;
+  @media screen and (max-width: 374px) {
+          
+  }
+  @media screen and (min-width: 768px) {
+    
+  }
+  @media screen and (min-width: 1024px) {
+    margin-top: 122px;
+  }
   p {
     color: white;
   }
