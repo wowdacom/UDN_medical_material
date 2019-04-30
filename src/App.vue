@@ -133,49 +133,49 @@ export default {
       nav: [
         {
           page: '/',
-          name: 'enter',
+          name: ['enter', 'page1', 'page2', 'page3'],
           title: '拋棄式醫材重複用',
           isTrack: true
         },
         {
           page: '/4',
-          name: 'page4',
+          name: ['page4', 'page5', 'page6'],
           title: '自費醫材價差黑幕',
           isTrack: false
         },
         {
           page: '/7',
-          name: 'page7',
+          name: ['page7'],
           title: '黑心醫院重複使用10次',
           isTrack: false
         },
         {
           page: '/8',
-          name: 'page8',
+          name: ['page8', 'page9'],
           title: '台大醫曝真相',
           isTrack: false
         },
         {
           page: '/10',
-          name: 'page10',
+          name: ['page10'],
           title: '感染愛滋風險',
           isTrack: false
         },
         {
           page: '/11',
-          name: 'page11',
+          name: ['page11', 'page12', 'page13', 'page14'],
           title: '病人如待宰羔羊',
           isTrack: false
         },
         {
           page: '/15',
-          name: 'page15',
+          name: ['page15', 'page16'],
           title: '民眾如何自保',
           isTrack: false
         },
         {
           page: '/17',
-          name: 'end',
+          name: ['end'],
           title: '政府能解決嗎',
           isTrack: false
         },
