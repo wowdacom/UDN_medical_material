@@ -1,15 +1,13 @@
 <template>
-  <div class="page10 theme1">
-    <div class="image-wrapper">
-      <img src="@/../public/images/index_page10_article_img.jpg" alt="">
-    </div>
-    <div class="content-wrapper">
-      <h5 class="content-title">
+  <div class="page10">
+    <h5 class="content-title">
         若一次性手術醫材被重複使用，會出現哪些問題？
-      </h5>
-      <br>
+    </h5>
+    <img src="@/../public/images/index_page10_article_img.jpg" alt="">
+    <div class="content-wrapper">
       <h5 class="content-subtitle">消毒不完全，恐有血液疾病交叉感染風險</h5>
-      <p>「雙極電外科器械」用途廣泛，小至切除痔瘡、大至消化道、胸腔外科等手術，甚至肺部、乳房、泌尿道等腫瘤切除，都會派上用場，以能量燒灼方式達到止血效果，被列為拋棄式、一次性使用的手術耗材。在食藥署藥證中清楚寫著「單次使用器械」，廠商在外包裝也有標示「single patient use」，但許多醫療院所卻在消毒殺菌後重複使用。</p>
+      <br>
+      <p>中國醫藥大學新竹附設醫院外科部主任李博彰舉例，超音波刀前端會沾黏病人血液及組織，其前端結構精細又有死角，消毒難完全，重複使用難保有愛滋等血液疾病交叉感染可能。</p>
     </div> 
   </div>
 </template>
@@ -28,15 +26,53 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-@import '../assets/baseSCSS/theme.scss';
-
 .page10 {
-  padding: 38px 0 154px;
-  .content-title {
-
+  padding: 38px 0px 154px;
+  @media screen and (max-width: 374px) {
+          
   }
-  .content-subtitle {
-    color: #f02d3a;
+  @media screen and (min-width: 768px) {
+    padding: 81px 0px 198px;
+  }
+  @media screen and (min-width: 1024px) {
+    padding: 137px 25px 257px;
+  }
+  &::after {
+    content: '';
+    clear: both;
+  }
+  .content-title, .content-wrapper {
+    @media screen and (min-width: 1024px) {
+      float: right;
+      width: 50%;
+      padding-top: 45px;
+    }
+  }
+  .content-title {
+    font-weight: bold;
+  }
+  img {
+    width: 100%;
+    padding: 48px 0 38px;
+      @media screen and (max-width: 374px) {
+        padding: 30px 0;
+      }
+      @media screen and (min-width: 768px) {
+        padding: 53px 0 30px;
+      }
+      @media screen and (min-width: 1024px) {
+        padding: 0px;
+        float: left;
+        width: 50%;
+      }
+    }
+  .content-wrapper {
+    .content-subtitle {
+      color: #f02d3a;
+      @media screen and (min-width: 1024px) {
+        margin-top: 33px;
+      }
+    }
   }
 }
 </style>

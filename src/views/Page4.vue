@@ -1,7 +1,7 @@
 <template>
   <div class="page4 theme2">
     <div class="right">
-      <p>廣泛用於消化道、胸腔外科手術的「雙極電外科器械」一套費用近30,000元，但記者查詢健保署「醫材比價網」，在77家提供該項自費醫材的醫院中，卻有<span class="mark">31家</span>售價低於25,000元。</p>
+      <p>廣泛用於消化道、胸腔外科手術的「雙極電外科器械」一套費用近30,000元，但記者查詢健保署「醫材比價網」，在77家提供該項自費醫材的醫院中，卻有 <span class="mark">31家</span> 售價低於25,000元。</p>
     </div>  
     <div class="left">
       <div class="row">
@@ -31,6 +31,8 @@ export default {
 @import '../assets/baseSCSS/theme.scss';
 
 .page4 {
-  padding: 38px 0 154px;
+ .img-title {
+   
+ }
 }
 </style>

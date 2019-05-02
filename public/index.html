@@ -154,6 +154,11 @@
         fbq('init', '1624500254526892');
         fbq('track', 'PageView');
       </script>
+          <style>
+            [v-cloak] {
+            display: none;
+            }
+        </style>
       <noscript><img height="1" width="1" style="display:none"
         src="https://www.facebook.com/tr?id=1624500254526892&ev=PageView&noscript=1
       https://www.facebook.com/tr?id=1624500254526892&ev=PageView&noscript=1
@@ -175,8 +180,13 @@
       };
     </script>
     <script async defer src="https://connect.facebook.net/zh_TW/sdk.js"></script>
-    <div id="app">      
+    <div id="app" v-cloak>
+        <div slot>
+            html內容
+        </div>  
     </div>
+
+
     <!-- built files will be auto injected -->
   </body>
 </html>

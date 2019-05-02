@@ -29,6 +29,7 @@ export default {
   }
   @media screen and (min-width: 1024px) {
     margin-top: 122px;
+    padding: 0 100px;
   }
   p {
     color: white;

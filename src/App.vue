@@ -6,29 +6,37 @@
       </div>
       <div class="container headerContent">
         <div class="col">
-          <header class="header">
-          <div class="subtitle">白色巨塔謊言—</div>
-          <h1 class="main-title">
-            黑心二手醫材<br><span v-if="isEnter">病患自費成冤大頭</span>
-          </h1>
-          <div class="nav-warpper">
-            <ul class="lists">
-              <li class="list" :class="{isFocus: item.isTrack}" @click="jumpPage(item.page, index)" :key="item.page" v-for="(item, index) in nav">
-                {{ item.title }}
-              </li>
-            </ul>
+          <div class="col">
+            <header class="header">
+            <div  v-if="isEnter" class="subtitle">白色巨塔謊言—</div>
+              <h1 class="main-title">
+                黑心二手醫材 <br class="wrap"><span v-if="isEnter">病患自費成冤大頭</span>
+              </h1>
+              <i class="nav-arrow nav-arrow-left i-arrow4-left" @click="scrollXContral('left')"></i>
+                <div ref="nav" class="nav-warpper">
+                  
+                  <ul ref="lists" class="lists">
+                    <li class="list" :class="{isFocus: item.isTrack}" @click="jumpPage(item.page, index)" :key="item.page" v-for="(item, index) in nav">
+                      {{ item.title }}
+                    </li>
+                  </ul>
+                  
+                </div>
+              <i class="nav-arrow nav-arrow-right i-arrow4-right" @click="scrollXContral('right')"></i>
+            </header>
           </div>
-        </header>
         </div>
       </div>
       <div class="SectionContent">
         <div class="container">
           <div class="col">
-          <div class="routerWrapper">
-            <transition  mode="out-in" :name="shiftPosition">   
-                <router-view @changeRoute="changeBackground" />
-            </transition>
-          </div>
+            <div class="col">
+              <div class="routerWrapper">
+                <transition  mode="out-in" :name="shiftPosition">   
+                    <router-view @changeRoute="changeBackground" />
+                </transition>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -245,8 +253,6 @@ export default {
       console.log("jumpPage:", this.currentpage)
     },
     changeBackground: function(routeInfo){
-      console.log("changeBackground:", this.currentpage)
-      console.log(routeInfo)
       if ( routeInfo.name == 'enter') {
         this.isEnter = true
         this.currentpage = 0
@@ -277,58 +283,48 @@ export default {
           }
     },
     FacebookShare (href) {
-        ga("newmedia.send", {
-          "hitType": "event",
-          "eventCategory": "Facebook Share",
-          "eventAction": "click",
-          "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [facebook share]"
-        })
-        FB.ui(
-          {
-            method: 'share_open_graph',
-            action_type: 'og.shares',
-            action_properties: JSON.stringify({
-              object: {
-                'og:url': href,
-                'og:title': '白色巨塔的謊言─黑心二手醫材濫用 病患自費成冤大頭',
-                'og:description': '你能想像花大錢使用的自費手術醫材，竟是「二手貨」？《聯合報》調查發現，不少外科手術器械為一次性耗材，但許多醫院會私下消毒後重複使用，使用次數高達5到10次，而且躺在手術檯上的病人根本不知情。',
-                'og:image': 'https://nmdap.udn.com.tw/upf/newmedia/2019_data/medical_material/meta/index_Facebook.jpg'
-              }
-            })
-          },
-          // callback
-          function(response) {
-            if (response && !response.error_message) {
-              console.log(response);
-            } else {
-              console.log(response.error_message);
+      ga("newmedia.send", {
+        "hitType": "event",
+        "eventCategory": "Facebook Share",
+        "eventAction": "click",
+        "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [facebook share]"
+      })
+      FB.ui(
+        {
+          method: 'share_open_graph',
+          action_type: 'og.shares',
+          action_properties: JSON.stringify({
+            object: {
+              'og:url': href,
+              'og:title': '白色巨塔的謊言─黑心二手醫材濫用 病患自費成冤大頭',
+              'og:description': '你能想像花大錢使用的自費手術醫材，竟是「二手貨」？《聯合報》調查發現，不少外科手術器械為一次性耗材，但許多醫院會私下消毒後重複使用，使用次數高達5到10次，而且躺在手術檯上的病人根本不知情。',
+              'og:image': 'https://nmdap.udn.com.tw/upf/newmedia/2019_data/medical_material/meta/index_Facebook.jpg'
             }
+          })
+        },
+        // callback
+        function(response) {
+          if (response && !response.error_message) {
+            console.log(response);
+          } else {
+            console.log(response.error_message);
           }
-        );
+        }
+      );
+    },
+    scrollXContral (direction) {
+      let currentScrollPosition = this.$refs['nav'].scrollLeft
+      let scrollWidth = this.$refs['lists'].offsetWidth / ( this.pages.length - 1 )
+      if (direction === 'left') {
+        this.$refs['nav'].scrollLeft = currentScrollPosition - scrollWidth
       }
+      if (direction === 'right') {
+        this.$refs['nav'].scrollLeft = currentScrollPosition + scrollWidth
+      }
+    }
   },
   watch: {
     '$route' (to, from) {
-
-    //  let pathNumber = Number(to.path.split("/")[1])
-    // this.currentpage = pathNumber
-    //  if ( pathNumber === "" ) {
-    //    this.currentpage = 0
-    //  } else {
-    //    this.currentpage = pathNumber
-    //  }
-      // 應該物件去
-      // let vm = this
-      // if ( to.name !== 'page1' || to.name !== 'end') {
-      //   this.isEnter = false
-      // } else {
-      //   this.isEnter = true
-      // }
-      // vm.pages.forEach(function(item, index){
-      //   if(item.page == to.path) {
-      //     vm.currentpage = index
-      //   }
-      // })
     }
   },
   components: {
@@ -353,6 +349,16 @@ html {
       position: fixed;
       left: 0;
       top: 0;
+      @media screen and (max-width: 374px) {
+              
+      }
+      @media screen and (min-width: 768px) {
+        left: 11px;
+        top: 11px;
+      }
+      @media screen and (min-width: 1024px) {
+
+      }
       .udn-icon-logo{
         vertical-align: middle;
         font-size: 26px;
@@ -363,6 +369,15 @@ html {
         cursor: pointer;
         &:hover{
           transform: rotate(16deg);
+        }
+        @media screen and (max-width: 374px) {
+              
+        }
+        @media screen and (min-width: 768px) {
+          font-size: 40px;
+        }
+        @media screen and (min-width: 1024px) {
+
         }
       }
       
@@ -379,9 +394,10 @@ html {
       }
       .col {
         .header {
-          
+          position: relative;
           .subtitle {
             font-size: 12px;
+            padding-left: 5px;
             padding-top: 15px;
             @media screen and (max-width: 374px) {
               
@@ -395,7 +411,39 @@ html {
           }
           .main-title {
             font-size: 20px;
-            color: black;
+            color: #333333;
+            font-weight: bold;
+            padding-top: 10px;
+            padding-left: 5px;
+            @media screen and (max-width: 374px) {
+              
+            }
+            @media screen and (min-width: 768px) {
+               padding-left: 0px;
+              padding-top: 32px;
+              font-size: 28px;
+            }
+            @media screen and (min-width: 1024px) {
+
+            }
+
+          }
+          .nav-arrow {
+            color: rgba(#e0dfd5, 0.5);
+            cursor: pointer;
+            &:hover {
+              color: rgba(#e0dfd5, 1);
+            }
+          }
+          .nav-arrow-left {
+            position: absolute;
+            left: -25px;
+            bottom: 9%;
+          }
+          .nav-arrow-right {
+            position: absolute;
+            right: -25px;
+            bottom: 9%;
           }
           .nav-warpper {
             position: relative;
@@ -412,6 +460,7 @@ html {
             @media screen and (min-width: 1024px) {
               overflow: hidden;
             }
+            
             .lists {
               color: #9a9a9a;
               position: absolute;
@@ -663,6 +712,21 @@ html {
             font-weight: 900;
             font-size: 35px;
             color: #d84c4c;
+             @media screen and (max-width: 374px) {
+              
+            }
+            @media screen and (min-width: 768px) {
+              
+            }
+            @media screen and (min-width: 1024px) {
+              padding-top: 9px;
+              font-size: 50px;
+            }
+            .wrap {
+              @media screen and (min-width: 1024px) {
+                display: none;
+              }
+            }
           }
           .subtitle {
             color: #ffffff;

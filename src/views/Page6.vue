@@ -1,7 +1,7 @@
 <template>
   <div class="page6 theme2">
     <div class="right">
-      <p>最便宜的是委託彰化秀傳醫療體系所經營的<span class="mark">台南市立醫院</span> ，患者僅需自費3,000元；而價格最高的是桃園敏盛綜合醫院，自費價格高達47,500元，價格幾乎為台南市立醫院的16倍。</p>
+      <p>最便宜的是委託彰化秀傳醫療體系所經營的 <span class="mark">台南市立醫院</span> ，患者僅需自費3,000元；而價格最高的是桃園敏盛綜合醫院，自費價格高達47,500元，價格幾乎為台南市立醫院的16倍。</p>
     </div>  
     <div class="left">
       <div class="row">
@@ -29,6 +29,15 @@ export default {
 <style scoped lang="scss">
 @import '../assets/baseSCSS/theme.scss';
 .page6 {
-  padding: 38px 0 154px;
+  .left {
+    @media screen and (min-width: 1024px) {
+      margin-top: 107px;
+    }
+  }
+  .img-wrapper {
+    @media screen and (min-width: 1024px) {
+      width: 90%;
+    }
+  }
 }
 </style>

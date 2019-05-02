@@ -1,13 +1,27 @@
+.theme-default {
+  padding: 45px 0px 279px;
+  @media screen and (max-width: 374px) {
+    padding: 46px 0px 173px;   
+  }
+  @media screen and (min-width: 768px) {
+    padding: 174px 25px 293px;
+  }
+  @media screen and (min-width: 1024px) {
+
+  }
+}
+
 .theme1 {
-  padding-top: 44px;
+  padding: 38px 0px 154px;
   min-height: 75vh;
   @media screen and (max-width: 374px) {
           
   }
   @media screen and (min-width: 768px) {
-    
+    padding: 81px 0px 198px;
   }
   @media screen and (min-width: 1024px) {
+    padding: 137px 25px 257px;
     display: flex;
     vertical-align: center;
     align-items: center;
@@ -33,13 +47,15 @@
 }
 
 .theme2 {
+    padding: 45px 0 125px;
     @media screen and (max-width: 374px) {
-          
+      padding: 46px 0 101px;
     }
     @media screen and (min-width: 768px) {
-      
+      padding: 106px 0 201px;
     }
     @media screen and (min-width: 1024px) {
+      padding: 70px 0 178px;
       display: flex;
       vertical-align: center;
       flex-direction: row-reverse;
@@ -66,7 +82,18 @@
       width: 100%;
       text-align: center;
       .img-title {
-        margin: 53px 0 18px;
+        margin: 50px 0 20px;
+        font-size: 18px;
+        font-weight: bold;
+        @media screen and (max-width: 374px) {
+
+        }
+        @media screen and (min-width: 768px) {
+          margin: 53px 0 20px;
+        }
+        @media screen and (min-width: 1024px) {
+          margin: 70px 0 30px;
+        }
       }
       img {
         width: 100%;
@@ -75,6 +102,16 @@
 }
 
 .theme3 {
+    padding: 45px 0 132px;
+    @media screen and (max-width: 374px) {
+
+    }
+    @media screen and (min-width: 768px) {
+      padding: 238px 10% 389px;
+    }
+    @media screen and (min-width: 1024px) {
+      padding: 116px 10% 264px;
+    }
     .top {
         display: flex;
         align-items: flex-end;

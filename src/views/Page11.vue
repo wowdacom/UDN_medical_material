@@ -1,5 +1,5 @@
 <template>
-  <div class="page11">
+  <div class="page11 ">
     <h4 class="content-subtitle">
       術前不知情，病患成手術台上的待宰羔羊
     </h4>
