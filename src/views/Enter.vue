@@ -20,7 +20,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .enter {
-  padding-top: 44px;
+  padding: 44px 0 143px;
   @media screen and (max-width: 374px) {
           
   }
@@ -28,8 +28,7 @@ export default {
     
   }
   @media screen and (min-width: 1024px) {
-    margin-top: 122px;
-    padding: 0 100px;
+    padding: 122px 0 325px;
   }
   p {
     color: white;

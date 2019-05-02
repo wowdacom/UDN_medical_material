@@ -40,6 +40,14 @@
           </div>
         </div>
       </div>
+      <div v-show="isEnd" class="end-page-footer">
+        <div class="container">
+          <div class="col">
+            <fb-comment  href="https://udn.com/upf/newmedia/2019_data/digital_privacy/government/index.html"></fb-comment>
+          </div>
+        </div>
+        <foot></foot>
+      </div>
       <footer class="footer">
         <div @click="changePage('last')" class="last"><i class="arrow arrow-left i-arrow4-left"></i><span class="last-ch">上一頁</span></div>
         <div class="share">
@@ -549,8 +557,12 @@ html {
         }
       }
     }
+    .end-page-footer {
+      padding-bottom: 100px;
+    }
     .footer {
       position: fixed;
+      z-index: 100;
       bottom: 0;
       width: 100%;
       color: #333333;
@@ -678,7 +690,7 @@ html {
       }
     }
   }
-  .enterBackground, .endBackground {
+  .enterBackground {
     background-size: cover;
     background-image: url("../public/images/index_cover_mob.jpg");
     background-repeat: no-repeat;
@@ -753,6 +765,7 @@ html {
     }
   }
   .enterBackground {
+    
     .footer {
       .last {
         display: none;
@@ -760,6 +773,21 @@ html {
     }
   }
   .endBackground {
+    .SectionContent {
+      background-size: cover;
+      background-image: url("../public/images/index_cover_mob.jpg");
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      @media screen and (max-width: 374px) {
+        
+      }
+      @media screen and (min-width: 768px) {
+        background-image: url("../public/images/index_cover_web.jpg");
+      }
+      @media screen and (min-width: 1024px) {
+        background-image: url("../public/images/index_cover_web.jpg");
+      }
+    }
     .footer {
       .next {
         display: none;

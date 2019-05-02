@@ -1,30 +1,18 @@
 <template>
-  <div id="report" class="gray-back">
+  <div id="report">
     <div>
       <h4>{{ setProps('title') }}</h4>
       <div class="row">
-        <div class="col-sm-6 col-md-3">
+        <div class="col-sm-6 col-md-6">
           <a :href="setProps('href1')" target="_blank" @click="relateClick(setProps('text1'))">
             <img :src="setProps('img1')" />
             <p>{{setProps('text1')}}</p>
           </a>
         </div>
-        <div class="col-sm-6 col-md-3">
+        <div class="col-sm-6 col-md-6">
           <a :href="setProps('href2')" target="_blank" @click="relateClick(setProps('text2'))">
             <img :src="setProps('img2')" />
             <p>{{setProps('text2')}}</p>
-          </a>
-        </div>
-        <div class="col-sm-6 col-md-3">
-          <a :href="setProps('href3')" target="_blank" @click="relateClick(setProps('text3'))">
-            <img :src="setProps('img3')" />
-            <p>{{setProps('text3')}}</p>
-          </a>
-        </div>
-        <div class="col-sm-6 col-md-3">
-          <a :href="setProps('href4')" target="_blank" @click="relateClick(setProps('text4'))">
-            <img :src="setProps('img4')" />
-            <p>{{setProps('text4')}}</p>
           </a>
         </div>
       </div>
@@ -119,35 +107,36 @@ export default {
 }
 </script>
 
-<style scoped>
-  h4 {
-    font-size: 23px;
-    font-weight: bold;
-  }
-  #report{
-    padding: 50px 0;
-    border-top: 1px solid #363434;
-    border-bottom: 1px solid #363434;
-    color: #363434;
-  }
-  #report p{
-    font-size: 16px;
-    font-weight: bold;
-  }
-  #report a {
-    color: #363434;
-    text-decoration: none;
-  }
-  #report a:hover{
-    text-decoration: none;
-  }
-  #report img:hover{
-    opacity: .5;
-    transition: opacity .2s ease;
-  }
-  #report .col-sm-6 img{
-    width: 100%;
-  }
+<style scoped lang="scss">
+ #report {
+  color: #e3e3e3;
+   @media screen and (max-width: 767px){
+
+   }
+   h4 {
+      font-size: 15px;
+      font-weight: bold;
+    }
+    p{
+      font-size: 13px;
+      font-weight: bold;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+      &:hover{
+        text-decoration: none;
+      }
+    }
+    
+    img:hover{
+      opacity: .5;
+      transition: opacity .2s ease;
+    }
+    .col-sm-6 img{
+      width: 100%;
+    }
+ }
   @media screen and (max-width: 767px){
     #report{
       padding: 30px 0;

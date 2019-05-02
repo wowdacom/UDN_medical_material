@@ -1,6 +1,6 @@
 <template>
   <div class="page15">
-    <h2 class="title">民眾該怎麼避免使用到「二手醫材」呢？《聯合報》諮詢專家，提供以下建議：</h2>
+    <h2 class="title"><span class="mark">民眾該怎麼避免使用到「二手醫材」呢？<br class="wrap">《聯合報》諮詢專家，提供以下建議：</span></h2>
     <ul class="process">
       <li class="step step1">
         <h5 class="table-title">手術/住院前</h5>
@@ -56,15 +56,67 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .page15 {
-  padding: 38px 0 154px;
+  padding: 45px 0 170px;
+  @media screen and (max-width: 374px) {
+          
+  }
+  @media screen and (min-width: 768px) {
+    padding: 81px 0px 198px;
+  }
+  @media screen and (min-width: 1024px) {
+    padding: 91px 25px 145px;
+  }
   .title {
-    font-size: 12px;
-    color: #333333;
-    background: #e0dfd5;
+    width: 100%;
+    font-weight: bolder;
+    height: 100%;
+    padding: 10px 15px;
+    font-size: 14px;
     border-radius: 50px;
-    padding: 15px;
     line-height: 1.5;
-    
+    background: #e0dfd5;
+    color: #333333;
+    @media screen and (max-width: 374px) {
+      font-size: 12px;
+    }
+    @media screen and (min-width: 768px) {
+      background: transparent;
+    }
+    @media screen and (min-width: 1024px) {
+
+    }
+    text-align: center;
+    .wrap {
+      @media screen and (max-width: 374px) {
+      
+      }
+      @media screen and (min-width: 768px) {
+        display: none;
+      }
+      @media screen and (min-width: 1024px) {
+        
+      }
+    }
+    .mark {
+      background-color: transparent;
+      @media screen and (max-width: 374px) {
+      
+      }
+      @media screen and (min-width: 768px) {
+        width: 100%;
+        height: 100%;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 50px;
+        line-height: 1.5;
+        background: #e0dfd5;
+        color: #333333;
+      }
+      @media screen and (min-width: 1024px) {
+        
+      }
+      
+    }
   }
   .process {
     margin-top: 50px;
@@ -79,13 +131,24 @@ export default {
     }
     .table-title {
       width: 107px;
-      line-height: 28px;
       color: black;
       background: white;
       font-weight: bolder;
       text-align: center;
       border-radius: 50px;
-      font-size: 14px;
+      font-size: 15px;
+      p {
+        line-height: 1.5;
+      }
+      @media screen and (max-width: 374px) {
+        font-size: 14px;
+      }
+      @media screen and (min-width: 768px) {
+        
+      }
+      @media screen and (min-width: 1024px) {
+
+      }
     }
     .step-transition {
       text-align: center;
@@ -114,6 +177,7 @@ export default {
       }
     }  
     .step1 {
+      line-height: 1.5;
       @media screen and (max-width: 374px) {
           
       }
@@ -130,20 +194,37 @@ export default {
       p {
         padding-top: 17px;
         font-size: 15px;
+        line-height: 1.5;
         margin: 0 auto;
+
         @media screen and (max-width: 374px) {
             
         }
         @media screen and (min-width: 768px) {
-          
+          text-align: center;
         }
         @media screen and (min-width: 1024px) {
+          text-align: left;
           width: 50%;
         }
       }
       
     }
     .step2, .step3 {
+      .subtitle {
+        font-size: 15px;
+        font-weight: bold;
+        @media screen and (max-width: 374px) {
+          font-size: 12px;
+        }
+        @media screen and (min-width: 768px) {
+          
+        }
+        @media screen and (min-width: 1024px) {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
       ul {
         display: flex;
         @media screen and (max-width: 374px) {
@@ -158,12 +239,33 @@ export default {
         }
         li {
           width: 50%;
+          padding: 10px;
+          @media screen and (max-width: 374px) {
+
+          }
+          @media screen and (min-width: 768px) {
+            
+          }
+          @media screen and (min-width: 1024px) {
+            padding: 0px;
+          }
           .table-title {
             margin: 0 auto;
           }
           p {
             font-size: 15px;
             margin-top: 17px;
+            line-height: 1.5;
+            @media screen and (max-width: 374px) {
+              font-size: 12px;
+            }
+            @media screen and (min-width: 768px) {
+              
+            }
+            @media screen and (min-width: 1024px) {
+              flex-direction: column;
+              align-items: center;
+            }
           }
         }
       }
