@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <div class="page" :class="{enterBackground: isEnter, endBackground: isEnd}">
+      <div class="indicator"></div>
       <div class="logo">
         <i class="udn-icon udn-icon-logo" ></i>
       </div>
@@ -140,6 +141,10 @@ export default {
         {
           path: '/16',
           name: 'page16' 
+        },
+        {
+          path: '/17',
+          name: 'page17' 
         },
         {
           path: '/end',
@@ -349,6 +354,11 @@ html {
       height: 100%;
 }
 #app {
+  .indicator {
+    width: 100%;
+    height: 2px;
+    background-color: #d84c4c;
+  }
   .page {
     background-color: white;
     .logo {  

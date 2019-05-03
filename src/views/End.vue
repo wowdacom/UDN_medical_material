@@ -28,7 +28,8 @@ export default {
   },
   mounted () {
     this.$emit('changeRoute', this.$route);
-    console.log(this.$route)
+    FB.XFBML.parse()
+    // window.reload();
   }
 }
 </script>

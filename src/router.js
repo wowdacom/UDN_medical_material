@@ -135,13 +135,21 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Page16.vue')
     },
     {
+      path: '/17',
+      name: 'page17',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ './views/Page17.vue')
+    },
+    {
       path: '/end',
       name: 'end',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: End,
-      alias: '/17'
+      alias: '/18'
     },
     { path: '/*', redirect: { name: 'enter' }}
   ]
