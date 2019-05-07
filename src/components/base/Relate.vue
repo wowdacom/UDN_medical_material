@@ -3,13 +3,13 @@
     <div>
       <h4>{{ setProps('title') }}</h4>
       <div class="row">
-        <div class="col-sm-6 col-md-6">
+        <div class="col-xs-6 col-sm-6 col-md-6">
           <a :href="setProps('href1')" target="_blank" @click="relateClick(setProps('text1'))">
             <img :src="setProps('img1')" />
             <p>{{setProps('text1')}}</p>
           </a>
         </div>
-        <div class="col-sm-6 col-md-6">
+        <div class="col-xs-6 col-sm-6 col-md-6">
           <a :href="setProps('href2')" target="_blank" @click="relateClick(setProps('text2'))">
             <img :src="setProps('img2')" />
             <p>{{setProps('text2')}}</p>
@@ -75,6 +75,7 @@ export default {
   },
   methods: {
     relateClick (target) {
+      console.log( "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [" + target + "] [relate click]")
       ga("send", {
         "hitType": "event",
         "eventCategory": "relate",
@@ -84,7 +85,7 @@ export default {
     },
     isPropsEntered (target, name, type) {
       if (target === undefined) {
-        console.error('請輸入 ' + name + ' ex: <Relate ' + name + '={' + type + '}' + '></Relate>')
+        // console.error('請輸入 ' + name + ' ex: <Relate ' + name + '={' + type + '}' + '></Relate>')
       }
     }
   },

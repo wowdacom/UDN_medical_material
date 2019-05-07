@@ -1,61 +1,41 @@
 <template>
   <div id="app">
     <div class="page" :class="{enterBackground: isEnter, endBackground: isEnd}">
-      <div class="indicator"></div>
+      <div class="indicator" :style="{width: indicatorWidth + '%' }" ></div>
       <div class="logo">
-        <i class="udn-icon udn-icon-logo" ></i>
+        <a @click="handleGA" href=".">
+          <i  class="udn-icon udn-icon-logo" ></i>
+        </a>
       </div>
-      <div class="container headerContent">
-        <div class="col">
-          <div class="col">
-            <header class="header">
-            <div  v-if="isEnter" class="subtitle">白色巨塔謊言—</div>
-              <h1 class="main-title">
-                黑心二手醫材 <br class="wrap"><span v-if="isEnter">病患自費成冤大頭</span>
-              </h1>
-              <i class="nav-arrow nav-arrow-left i-arrow4-left" @click="scrollXContral('left')"></i>
+      <div class="headerContent">
+        <div class="container">
+          <header class="header">
+            <div  v-if="isEnter" class="subtitle">揭開白色巨塔謊言</div>
+              <div class="main-title">
+                黑心二手醫材 病患自費成冤大頭
+              </div>
+              <!-- <i class="nav-arrow nav-arrow-left i-arrow4-left" @click="scrollXContral('left')"></i> -->
                 <div ref="nav" class="nav-warpper">
                   
                   <ul ref="lists" class="lists">
-                    <li class="list" :class="{isFocus: item.isTrack}" @click="jumpPage(item.page, index)" :key="item.page" v-for="(item, index) in nav">
+                    <li class="list" :class="{isFocus: item.isTrack}" @click="navClickHandle(item.page)" :key="item.page" v-for="item in nav">
                       {{ item.title }}
                     </li>
                   </ul>
                   
                 </div>
-              <i class="nav-arrow nav-arrow-right i-arrow4-right" @click="scrollXContral('right')"></i>
+              <!-- <i class="nav-arrow nav-arrow-right i-arrow4-right" @click="scrollXContral('right')"></i> -->
             </header>
-          </div>
         </div>
       </div>
+      
       <div class="SectionContent">
-        <div class="container">
-          <div class="col">
-            <div class="col">
-              <div class="routerWrapper">
-                <transition  mode="out-in" :name="shiftPosition">   
-                    <router-view @changeRoute="changeBackground" />
-                </transition>
-              </div>
-            </div>
-          </div>
+        <div class="routerWrapper">
+          <transition  mode="out-in" :name="shiftPosition">   
+              <router-view @changeRoute="changeBackground" />
+          </transition>
         </div>
       </div>
-      <div v-show="isEnd" class="end-page-footer">
-        <div class="container">
-          <div class="col">
-            <fb-comment  href="https://udn.com/upf/newmedia/2019_data/digital_privacy/government/index.html"></fb-comment>
-          </div>
-        </div>
-        <foot></foot>
-      </div>
-      <footer class="footer">
-        <div @click="changePage('last')" class="last"><i class="arrow arrow-left i-arrow4-left"></i><span class="last-ch">上一頁</span></div>
-        <div class="share">
-          <i @click="LineShare(href)" class="line i-line"></i><i @click="FacebookShare(href)" class="facebook i-facebook-1"></i>
-        </div>
-        <div @click="changePage('next')" class="next"><span class="next-ch">下一頁</span><i class="arrow arrow-right i-arrow4-right"></i></div>
-      </footer>
     </div>
   </div>
 </template>
@@ -71,7 +51,7 @@ export default {
   mixins: [setProps],
   data () {
     return {
-      href: 'https://nmdap.udn.com.tw/upf/newmedia/2019_data/medical_material/',
+      href: 'https://udn.com/upf/newmedia/2019_data/medical_material/',
       totalpage: 3,
       currentpage: 0,
       currentpageName: '',
@@ -91,62 +71,6 @@ export default {
           name: 'page3'
         },
         {
-          path: '/4',
-          name: 'page4'
-        },
-        {
-          path: '/5',
-          name: 'page5'
-        },
-        {
-          path: '/6',
-          name: 'page6'
-        },
-        {
-          path: '/7',
-          name: 'page7'
-        },
-        {
-          path: '/8',
-          name: 'page8'
-        },
-        {
-          path: '/9',
-          name: 'page9'
-        },
-        {
-          path: '/10',
-          name: 'page10'
-        },
-        {
-          path: '/11',
-          name: 'page11'
-        },
-        {
-          path: '/12',
-          name: 'page12'
-        },
-        {
-          path: '/13',
-          name: 'page13'
-        },
-        {
-          path: '/14',
-          name: 'page14'
-        },
-        {
-          path: '/15',
-          name: 'page15' 
-        },
-        {
-          path: '/16',
-          name: 'page16' 
-        },
-        {
-          path: '/17',
-          name: 'page17' 
-        },
-        {
           path: '/end',
           name: 'end'
         }
@@ -154,54 +78,31 @@ export default {
       nav: [
         {
           page: '/',
-          name: ['enter', 'page1', 'page2', 'page3'],
-          title: '拋棄式醫材重複用',
+          range: [0, 1],
+          title: '你的手術醫材是二手貨',
           isTrack: true
         },
         {
-          page: '/4',
-          name: ['page4', 'page5', 'page6'],
-          title: '自費醫材價差黑幕',
-          isTrack: false
-        },
-        {
-          page: '/7',
-          name: ['page7'],
+          page: '/2',
+          range: [2],
           title: '黑心醫院重複使用10次',
           isTrack: false
         },
         {
-          page: '/8',
-          name: ['page8', 'page9'],
-          title: '台大醫曝真相',
+          page: '/3',
+          range: [3],
+          title: '病患恐感染血液疾病',
           isTrack: false
         },
         {
-          page: '/10',
-          name: ['page10'],
-          title: '感染愛滋風險',
+          page: '/end',
+          range: [4],
+          title: '術前你該如何自保',
           isTrack: false
-        },
-        {
-          page: '/11',
-          name: ['page11', 'page12', 'page13', 'page14'],
-          title: '病人如待宰羔羊',
-          isTrack: false
-        },
-        {
-          page: '/15',
-          name: ['page15', 'page16'],
-          title: '民眾如何自保',
-          isTrack: false
-        },
-        {
-          page: '/17',
-          name: ['end'],
-          title: '政府能解決嗎',
-          isTrack: false
-        },
+        }
       ],
-      shiftPosition: 'fadeLeft'
+      shiftPosition: 'fadeLeft',
+      indicatorWidth: 0
     }
   },
   created () {
@@ -227,12 +128,24 @@ export default {
         vm.shiftPosition = 'fadeLeft'
         vm.currentpage += 1
         router.push(vm.pages[vm.currentpage - 1].path)
+        window.ga("newmedia.send", {
+            "hitType": "event",
+            "eventCategory": "Swipe",
+            "eventAction": "click",
+            "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [滑動下一頁]"
+        })
         event.preventDefault();
       }
       if (vm.currentpage > 0 && event.direction == 4) {
         vm.shiftPosition = 'fadeRight'
         vm.currentpage -= 1
         router.push(vm.pages[vm.currentpage - 1].path)
+        window.ga("newmedia.send", {
+            "hitType": "event",
+            "eventCategory": "Swipe",
+            "eventAction": "click",
+            "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [滑動上一頁]"
+        })
         event.preventDefault();   
       }
     
@@ -241,31 +154,67 @@ export default {
       let vm  = this
       if (vm.currentpage < vm.pages.length && position === 'next') {
         vm.shiftPosition = 'fadeLeft'
+        if( vm.currentpage === 0 ) {
+          vm.currentpage += 1
+        }
         vm.currentpage += 1
-        this.jumpPage(vm.pages[vm.currentpage - 1].path)  
+        this.jumpPage(vm.pages[vm.currentpage - 1].path)
+        window.ga("newmedia.send", {
+            "hitType": "event",
+            "eventCategory": "Swipe",
+            "eventAction": "click",
+            "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [點擊上一頁]"
+        })
         event.preventDefault();
       }
       if (vm.currentpage > 0 &&  position === 'last') {
         vm.shiftPosition = 'fadeRight'
         vm.currentpage -= 1 
         this.jumpPage(vm.pages[vm.currentpage - 1].path)
+        window.ga("newmedia.send", {
+            "hitType": "event",
+            "eventCategory": "Swipe",
+            "eventAction": "click",
+            "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [點擊下一頁]"
+        })
         event.preventDefault();     
       }
     },
+    navClickHandle (whichPage) {
+      let page = whichPage.split("/")[1] === "" ? 1 :  whichPage.split("/")[1]
+
+      window.ga("newmedia.send", {
+          "hitType": "event",
+          "eventCategory": "Anchor",
+          "eventAction": "click",
+          "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [錨點第" + page + "頁]"
+      })
+      this.jumpPage(whichPage)
+    },
     jumpPage (whichPage) {
-      console.log(whichPage)
+      
       router.push(whichPage)
+    },
+    measureIndicator () {
+      this.indicatorWidth = 100 / this.pages.length * this.currentpage
+    },
+    navControl (currentPage) {
       let vm = this
+      let currentScrollPosition = this.$refs['nav'].scrollLeft
+      let scrollWidth = this.$refs['lists'].offsetWidth / this.nav.length
+
       this.nav.forEach(function(item, index){
-        if (item.page === whichPage) {
+        if (item.range[0] <= currentPage && currentPage <= item.range[1] ) {
           vm.nav[index].isTrack = true
+          vm.$refs['nav'].scrollLeft = scrollWidth * index
         } else {
           vm.nav[index].isTrack = false
         }
       })
-      console.log("jumpPage:", this.currentpage)
+      console.log(currentPage)
     },
     changeBackground: function(routeInfo){
+      
       if ( routeInfo.name == 'enter') {
         this.isEnter = true
         this.currentpage = 0
@@ -280,13 +229,24 @@ export default {
         this.isEnd = false
         this.currentpage = Number(routeInfo.path.split("/")[1])
       }
+      this.measureIndicator()
+      this.navControl(this.currentpage)
+      let page = this.currentpage === 0 ? 1 : this.currentpage
+      ga("newmedia.send", {
+        "hitType": "event",
+        "eventCategory": "Read",
+        "eventAction": "Click",
+        "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [第" + page + "頁閱讀]"
+      })
     },
     LineShare (href) {
+        let page = this.currentpage === 0 ? 1 : this.currentpage
+
           ga("newmedia.send", {
             "hitType": "event",
             "eventCategory": "Line Share",
             "eventAction": "click",
-            "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [line share]"
+            "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [第" + page + "頁 line share]"
           })
           if (Utils.detectMob()) {
             // 手機
@@ -296,11 +256,12 @@ export default {
           }
     },
     FacebookShare (href) {
+      let page = this.currentpage === 0 ? 1 : this.currentpage
       ga("newmedia.send", {
         "hitType": "event",
         "eventCategory": "Facebook Share",
         "eventAction": "click",
-        "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [facebook share]"
+        "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [第" + page + "頁 facebook share]"
       })
       FB.ui(
         {
@@ -327,13 +288,21 @@ export default {
     },
     scrollXContral (direction) {
       let currentScrollPosition = this.$refs['nav'].scrollLeft
-      let scrollWidth = this.$refs['lists'].offsetWidth / ( this.pages.length - 1 )
+      let scrollWidth = this.$refs['lists'].offsetWidth / this.nav.length
       if (direction === 'left') {
         this.$refs['nav'].scrollLeft = currentScrollPosition - scrollWidth
       }
       if (direction === 'right') {
         this.$refs['nav'].scrollLeft = currentScrollPosition + scrollWidth
       }
+    },
+    handleGA (event) {
+      window.ga("newmedia.send", {
+          "hitType": "event",
+          "eventCategory": "Logo",
+          "eventAction": "click",
+          "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [聯Logo點擊]"
+      })
     }
   },
   watch: {
@@ -352,12 +321,14 @@ export default {
 
 html {
       height: 100%;
+      overflow-x: hidden;
+      background-color: #333333;
 }
 #app {
   .indicator {
-    width: 100%;
     height: 2px;
     background-color: #d84c4c;
+    transition: 1s all;
   }
   .page {
     background-color: white;
@@ -367,6 +338,7 @@ html {
       position: fixed;
       left: 0;
       top: 0;
+      z-index: 20;
       @media screen and (max-width: 374px) {
               
       }
@@ -401,22 +373,18 @@ html {
       
     }
     .headerContent {
-      background-color: #ffffff;
-      &::after {
-        content: '';
-        position: absolute;
-        width: 100vw;
-        height: 0.5px;
-        left: 0;
-        background-color: #9a9a9a;
-      }
-      .col {
-        .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10;
+      background-color: #333333;
+      border-bottom: solid 2px #757575;
+      .header {
           position: relative;
           .subtitle {
             font-size: 12px;
-            padding-left: 5px;
-            padding-top: 15px;
+            padding-top: 37px;
             @media screen and (max-width: 374px) {
               
             }
@@ -424,22 +392,20 @@ html {
               
             }
             @media screen and (min-width: 1024px) {
-              font-size: 15px;
+              font-size: 55px;
             }
           }
           .main-title {
             font-size: 20px;
             color: #333333;
             font-weight: bold;
-            padding-top: 10px;
-            padding-left: 5px;
+            padding-bottom: 20px;
+            margin: 0px;
             @media screen and (max-width: 374px) {
               
             }
             @media screen and (min-width: 768px) {
-               padding-left: 0px;
-              padding-top: 32px;
-              font-size: 28px;
+              font-size: 26px;
             }
             @media screen and (min-width: 1024px) {
 
@@ -478,100 +444,103 @@ html {
             @media screen and (min-width: 1024px) {
               overflow: hidden;
             }
-            
             .lists {
               color: #9a9a9a;
               position: absolute;
               left: 0;
+              bottom: 0px;
+              z-index: 30;
               display: flex;
+              margin: 0;
               .list {        
                 display: inline-block;
-                margin: 9.5px 20px 9.5px 0;
+                padding: 9.5px 0px 9.5px;
+                margin-right: 40px;
                 white-space: nowrap;
                 cursor: pointer;
               }
               .isFocus {
                 position: relative;
+                color: #ffffff;
+                font-weight: bolder;
                 &::after {
                   content: '';
                   position: absolute;
-                  bottom: -16px;
+                  bottom: 0px;
                   left: 0;
                   display: block;
-                  height: 4px;
+                  height: 1px;
                   width: 100%;
-                  background: #333333;
+                  background: white;
                 }
               }
             }
           }
         }
-      }
     }
     .SectionContent {
       background-color: #f2f1ed;
+
       .routerWrapper {
-        min-height: 85vh;
         backface-visibility: hidden;
         .fadeLeft-enter-active {
-          // transition: .5s shiftLeft;
-          animation: .1s shiftLeft;
+          animation: .3s shiftLeft;
         }
         .fadeLeft-leave-active {
-          // transition: .5s shiftLeft;
-          animation: .1s shiftLeftOut;
+          animation: .3s shiftLeftOut;
         }
-        // .fadeLeft-enter, .fadeLeft-leave-to /* .fade-leave-active below version 2.1.8 */ {
-        //   opacity: 0;
-        // }
         @keyframes shiftLeft{
           0% {
-            transform: translateX(150%);    
+            transform: translateX(150%);
+            opacity: 0; 
           }
           100% {
             transform: translateX(0%);
+            opacity: 1;
           }
         }
         @keyframes shiftLeftOut{
           0% {
-            transform: translateX(0%);    
+            transform: translateX(0%);  
+            opacity: 1;  
           }
           100% {
             transform: translateX(-150%);
+             opacity: 0;
           }
         }
         .fadeRight-enter-active {
-          animation: .1s shiftRight;
+          animation: .3s shiftRight;
         }
         .fadeRight-leave-active {
-          animation: .1s shiftRightOut;
+          animation: .3s shiftRightOut;
         }
         .fadeRight-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
           opacity: 0;
         }
         @keyframes shiftRight{
           0% {
-            transform: translateX(-150%);    
+            transform: translateX(-150%);
+            opacity: 0;
           }
           100% {
             transform: translateX(0%);
+            opacity: 1;
           }
         }
         @keyframes shiftRightOut{
           0% {
-            transform: translateX(0%);    
+            transform: translateX(0%); 
+            opacity: 1;   
           }
           100% {
             transform: translateX(150%);
+            opacity: 0;
           }
         }
       }
     }
-    .end-page-footer {
-      padding-bottom: 100px;
-    }
     .footer {
-      position: fixed;
       z-index: 100;
       bottom: 0;
       width: 100%;
@@ -580,7 +549,7 @@ html {
       justify-content: space-between;
       align-items: center;
       padding: 17px 0 47px;
-      background-color: #ffffff;
+      background-color: #f2f1ed;
       @media screen and (max-width: 374px) {
                 
       }
@@ -593,10 +562,6 @@ html {
       }
       .line, .facebook {
         font-size: 21px;
-        cursor: pointer;
-      }
-      .arrow {
-        font-size: 15px;
         cursor: pointer;
       }
       .last {
@@ -634,21 +599,6 @@ html {
           cursor: pointer;
           &:hover {
             color: rgba(#e0dfd5, 1);
-          }
-        }
-        .arrow-left {
-          color: rgba(#e0dfd5, 0.5);
-          &:hover {
-            color: rgba(#e0dfd5, 1);
-          }
-          @media screen and (max-width: 374px) {
-                  
-          }
-          @media screen and (min-width: 768px) {
-            
-          }
-          @media screen and (min-width: 1024px) {
-            font-size: 80px;
           }
         }
       }
@@ -701,38 +651,22 @@ html {
     }
   }
   .enterBackground {
-    background-size: cover;
-    background-image: url("../public/images/index_cover_mob.jpg");
-    background-repeat: no-repeat;
-    @media screen and (max-width: 374px) {
-      
-    }
-    @media screen and (min-width: 768px) {
-      background-image: url("../public/images/index_cover_web.jpg");
-    }
-    @media screen and (min-width: 1024px) {
-      background-image: url("../public/images/index_cover_web.jpg");
-    }
+    background-color: #333333;
     .logo {
       .udn-icon-logo {
         color: #ffffff;
       }
     }
     .headerContent {
-      background-color: transparent;
-      &::after {
-        content: '';
-        position: absolute;
-        width: 100vw;
-        height: 0.5px;
-        left: 0;
-        background-color: #9a9a9a;
-      }
-      .col {
-        .header {
+      background: #333333;
+      .header {
+          .subtitle {
+            color: #ffffff;
+            font-size: 28px;
+          }
           .main-title {
             font-weight: 900;
-            font-size: 35px;
+            font-size: 16px;
             color: #d84c4c;
              @media screen and (max-width: 374px) {
               
@@ -741,8 +675,7 @@ html {
               
             }
             @media screen and (min-width: 1024px) {
-              padding-top: 9px;
-              font-size: 50px;
+             font-size: 26px;
             }
             .wrap {
               @media screen and (min-width: 1024px) {
@@ -750,11 +683,7 @@ html {
               }
             }
           }
-          .subtitle {
-            color: #ffffff;
-          }
         }
-      }
     }
     .SectionContent {
       background-color: transparent;
@@ -784,19 +713,7 @@ html {
   }
   .endBackground {
     .SectionContent {
-      background-size: cover;
-      background-image: url("../public/images/index_cover_mob.jpg");
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      @media screen and (max-width: 374px) {
-        
-      }
-      @media screen and (min-width: 768px) {
-        background-image: url("../public/images/index_cover_web.jpg");
-      }
-      @media screen and (min-width: 1024px) {
-        background-image: url("../public/images/index_cover_web.jpg");
-      }
+
     }
     .footer {
       .next {
