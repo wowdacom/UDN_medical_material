@@ -12,7 +12,7 @@ export default {
 
 <style scoped>
   #editor{
-    color: #ffffff;
+    color: black;
     font-weight: normal;
     font-size: 15px;
   }

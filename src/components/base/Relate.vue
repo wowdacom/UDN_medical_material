@@ -3,13 +3,13 @@
     <div>
       <h4>{{ setProps('title') }}</h4>
       <div class="row">
-        <div class="col-xs-6 col-sm-6 col-md-6">
+        <div class="col-6 col-sm-6 col-md-6">
           <a :href="setProps('href1')" target="_blank" @click="relateClick(setProps('text1'))">
             <img :src="setProps('img1')" />
             <p>{{setProps('text1')}}</p>
           </a>
         </div>
-        <div class="col-xs-6 col-sm-6 col-md-6">
+        <div class="col-6 col-sm-6 col-md-6">
           <a :href="setProps('href2')" target="_blank" @click="relateClick(setProps('text2'))">
             <img :src="setProps('img2')" />
             <p>{{setProps('text2')}}</p>
@@ -110,17 +110,13 @@ export default {
 
 <style scoped lang="scss">
  #report {
-  color: #e3e3e3;
-   @media screen and (max-width: 767px){
-
-   }
+   color: #333333;
    h4 {
       font-size: 15px;
-      font-weight: bold;
+      font-weight: bolder;
     }
     p{
       font-size: 13px;
-      font-weight: bold;
     }
     a {
       color: inherit;
@@ -137,31 +133,19 @@ export default {
     .col-sm-6 img{
       width: 100%;
     }
+    .col-sm-6 p{
+      width: 100%;
+    }
  }
   @media screen and (max-width: 767px){
     #report{
       padding: 30px 0;
-    }
-    #report .col-sm-6{
-      clear: both;
-    }
-    .people-contain img{
-      width: 100%;
-      height: auto;
     }
     #report p {
       font-size: 16px;
       float: left;
       width: 45%;
       margin-top: 10px;
-    }
-    #report .col-sm-6 img {
-      width: auto;
-      height: auto;
-      float: right;
-      width: 50%;
-      padding-left: 10px;
-      padding-bottom: 10px;
     }
   }
   @media screen and (min-width: 768px) and (max-width: 1024px){

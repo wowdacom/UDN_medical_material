@@ -1,33 +1,32 @@
 <template>
   <div id="app">
-    <div class="page" :class="{enterBackground: isEnter, endBackground: isEnd}">
-      <div class="indicator" :style="{width: indicatorWidth + '%' }" ></div>
+    <div class="page" :class="{enterBackground: isEnter, endBackground: isEnd}"> 
       <div class="logo">
         <a @click="handleGA" href=".">
           <i  class="udn-icon udn-icon-logo" ></i>
         </a>
       </div>
-      <div class="headerContent">
-        <div class="container">
-          <header class="header">
-            <div  v-if="isEnter" class="subtitle">揭開白色巨塔謊言</div>
-              <div class="main-title">
-                黑心二手醫材 病患自費成冤大頭
-              </div>
-              <!-- <i class="nav-arrow nav-arrow-left i-arrow4-left" @click="scrollXContral('left')"></i> -->
-                <div ref="nav" class="nav-warpper">
-                  
-                  <ul ref="lists" class="lists">
-                    <li class="list" :class="{isFocus: item.isTrack}" @click="navClickHandle(item.page)" :key="item.page" v-for="item in nav">
-                      {{ item.title }}
-                    </li>
-                  </ul>
-                  
+      <transition>
+        <div ref="headerContent" class="headerContent">
+          <div class="indicator" :style="{width: indicatorWidth + '%' }" ></div>
+          <div class="container">
+            <header class="header">
+              <div  v-if="isEnter" class="subtitle">揭開白色巨塔謊言</div>
+                <div class="main-title">
+                  黑心二手醫材 病患自費成冤大頭
                 </div>
-              <!-- <i class="nav-arrow nav-arrow-right i-arrow4-right" @click="scrollXContral('right')"></i> -->
-            </header>
+                  <div ref="nav" class="nav-warpper">                 
+                    <ul ref="lists" class="lists">
+                      <li class="list" :class="{isFocus: item.isTrack}" @click="navClickHandle(item.page)" :key="item.page" v-for="item in nav">
+                        {{ item.title }}
+                      </li>
+                    </ul>                  
+                  </div>
+              </header>
+          </div>
         </div>
-      </div>
+      </transition>
+      
       
       <div class="SectionContent">
         <div class="routerWrapper">
@@ -45,10 +44,11 @@ import _debounce from 'lodash.debounce'
 import Hammer from  'hammerjs'
 import Utils from 'udn-newmedia-utils'
 import setProps from './mixin/setProps.js'
+import paging from './mixin/paging.js'
 
 export default {
   name: 'app',
-  mixins: [setProps],
+  mixins: [setProps, paging],
   data () {
     return {
       href: 'https://udn.com/upf/newmedia/2019_data/medical_material/',
@@ -84,19 +84,19 @@ export default {
         },
         {
           page: '/2',
-          range: [2],
+          range: [2, 2],
           title: '黑心醫院重複使用10次',
           isTrack: false
         },
         {
           page: '/3',
-          range: [3],
+          range: [3, 3],
           title: '病患恐感染血液疾病',
           isTrack: false
         },
         {
           page: '/end',
-          range: [4],
+          range: [4, 4],
           title: '術前你該如何自保',
           isTrack: false
         }
@@ -115,6 +115,10 @@ export default {
     const routerWrapper = document.querySelector('.routerWrapper');
     const hammertime = new Hammer(routerWrapper);
     hammertime.on('swipe', vm.onSwipe);
+    window.addEventListener('scroll', function() {
+      vm.measureIndicator()
+    });
+    
   },
   destroyed() {
 
@@ -122,7 +126,6 @@ export default {
   methods: {
     onSwipe: _debounce(function(event){
       let vm  = this
-      console.log(event)
       if (vm.currentpage < vm.pages.length && event.direction == 2) {
         
         vm.shiftPosition = 'fadeLeft'
@@ -150,36 +153,6 @@ export default {
       }
     
     }, 500),
-    changePage: function(position){
-      let vm  = this
-      if (vm.currentpage < vm.pages.length && position === 'next') {
-        vm.shiftPosition = 'fadeLeft'
-        if( vm.currentpage === 0 ) {
-          vm.currentpage += 1
-        }
-        vm.currentpage += 1
-        this.jumpPage(vm.pages[vm.currentpage - 1].path)
-        window.ga("newmedia.send", {
-            "hitType": "event",
-            "eventCategory": "Swipe",
-            "eventAction": "click",
-            "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [點擊上一頁]"
-        })
-        event.preventDefault();
-      }
-      if (vm.currentpage > 0 &&  position === 'last') {
-        vm.shiftPosition = 'fadeRight'
-        vm.currentpage -= 1 
-        this.jumpPage(vm.pages[vm.currentpage - 1].path)
-        window.ga("newmedia.send", {
-            "hitType": "event",
-            "eventCategory": "Swipe",
-            "eventAction": "click",
-            "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [點擊下一頁]"
-        })
-        event.preventDefault();     
-      }
-    },
     navClickHandle (whichPage) {
       let page = whichPage.split("/")[1] === "" ? 1 :  whichPage.split("/")[1]
 
@@ -191,12 +164,12 @@ export default {
       })
       this.jumpPage(whichPage)
     },
-    jumpPage (whichPage) {
-      
-      router.push(whichPage)
-    },
-    measureIndicator () {
-      this.indicatorWidth = 100 / this.pages.length * this.currentpage
+    measureIndicator () {  
+      let page = this.currentpage === 0 ? 0 : this.currentpage - 1
+      let currentH = window.pageYOffset
+      let totalH = document.body.scrollHeight - window.innerHeight
+      let progress = (25 / totalH) * currentH
+      this.indicatorWidth =  progress + (page * 25)
     },
     navControl (currentPage) {
       let vm = this
@@ -211,7 +184,7 @@ export default {
           vm.nav[index].isTrack = false
         }
       })
-      console.log(currentPage)
+
     },
     changeBackground: function(routeInfo){
       
@@ -232,69 +205,13 @@ export default {
       this.measureIndicator()
       this.navControl(this.currentpage)
       let page = this.currentpage === 0 ? 1 : this.currentpage
+      console.log("[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [第" + page + "頁閱讀]")
       ga("newmedia.send", {
         "hitType": "event",
         "eventCategory": "Read",
         "eventAction": "Click",
         "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [第" + page + "頁閱讀]"
       })
-    },
-    LineShare (href) {
-        let page = this.currentpage === 0 ? 1 : this.currentpage
-
-          ga("newmedia.send", {
-            "hitType": "event",
-            "eventCategory": "Line Share",
-            "eventAction": "click",
-            "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [第" + page + "頁 line share]"
-          })
-          if (Utils.detectMob()) {
-            // 手機
-            window.open("//line.me/R/msg/text/?" + document.querySelector('title').innerHTML + "%0D%0A%0D%0A" + document.querySelector('meta[property="og:description"]').content + "%0D%0A%0D%0A" + href)
-          } else {
-            window.open("https://lineit.line.me/share/ui?url=" + href)
-          }
-    },
-    FacebookShare (href) {
-      let page = this.currentpage === 0 ? 1 : this.currentpage
-      ga("newmedia.send", {
-        "hitType": "event",
-        "eventCategory": "Facebook Share",
-        "eventAction": "click",
-        "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [第" + page + "頁 facebook share]"
-      })
-      FB.ui(
-        {
-          method: 'share_open_graph',
-          action_type: 'og.shares',
-          action_properties: JSON.stringify({
-            object: {
-              'og:url': href,
-              'og:title': '白色巨塔的謊言─黑心二手醫材濫用 病患自費成冤大頭',
-              'og:description': '你能想像花大錢使用的自費手術醫材，竟是「二手貨」？《聯合報》調查發現，不少外科手術器械為一次性耗材，但許多醫院會私下消毒後重複使用，使用次數高達5到10次，而且躺在手術檯上的病人根本不知情。',
-              'og:image': 'https://nmdap.udn.com.tw/upf/newmedia/2019_data/medical_material/meta/index_Facebook.jpg'
-            }
-          })
-        },
-        // callback
-        function(response) {
-          if (response && !response.error_message) {
-            console.log(response);
-          } else {
-            console.log(response.error_message);
-          }
-        }
-      );
-    },
-    scrollXContral (direction) {
-      let currentScrollPosition = this.$refs['nav'].scrollLeft
-      let scrollWidth = this.$refs['lists'].offsetWidth / this.nav.length
-      if (direction === 'left') {
-        this.$refs['nav'].scrollLeft = currentScrollPosition - scrollWidth
-      }
-      if (direction === 'right') {
-        this.$refs['nav'].scrollLeft = currentScrollPosition + scrollWidth
-      }
     },
     handleGA (event) {
       window.ga("newmedia.send", {
@@ -325,13 +242,13 @@ html {
       background-color: #333333;
 }
 #app {
+  
   .indicator {
     height: 2px;
     background-color: #d84c4c;
     transition: 1s all;
   }
   .page {
-    background-color: white;
     .logo {  
       line-height: 40px;
       color: white;
@@ -382,6 +299,7 @@ html {
       border-bottom: solid 2px #757575;
       .header {
           position: relative;
+          padding-top: 13px;
           .subtitle {
             font-size: 12px;
             padding-top: 37px;
@@ -397,9 +315,9 @@ html {
           }
           .main-title {
             font-size: 20px;
-            color: #333333;
+            color: #9a9a9a;
             font-weight: bold;
-            padding-bottom: 20px;
+            // padding-bottom: 20px;
             margin: 0px;
             @media screen and (max-width: 374px) {
               
@@ -408,7 +326,7 @@ html {
               font-size: 26px;
             }
             @media screen and (min-width: 1024px) {
-
+              
             }
 
           }
@@ -663,6 +581,15 @@ html {
           .subtitle {
             color: #ffffff;
             font-size: 28px;
+            @media screen and (max-width: 374px) {
+              
+            }
+            @media screen and (min-width: 768px) {
+              
+            }
+            @media screen and (min-width: 1024px) {
+             font-size: 55px;
+            }
           }
           .main-title {
             font-weight: 900;

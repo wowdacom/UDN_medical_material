@@ -31,12 +31,21 @@ hr {
 .button-wrapper {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 91px;
   .last-button, .next-button {
     color: white;
     padding: 12px 19px;
     border-radius: 10px;
     border: solid 1px white;
+    cursor: pointer;
+  }
+}
+
+.page-share {
+  text-align: right;
+  color: white;
+  font-size:48px;
+  padding: 54px 0;
+  i {
     cursor: pointer;
   }
 }

@@ -7,6 +7,9 @@ Vue.use(Router)
 
 export default new Router({
   base: '/upf/newmedia/2019_data/medical_material/',
+  scrollBehavior() {
+    return { x: 0, y: 0 };
+  },
   routes: [
     {
       path: '/',

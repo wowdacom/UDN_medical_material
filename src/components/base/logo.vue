@@ -27,12 +27,12 @@ export default {
               {
                   name: '聯合新聞網',
                   link: 'https://udn.com/news/index',
-                  logo: require('@/../public/images/logo/footer_logo_UDN_white.svg')
+                  logo: require('@/../public/images/logo/logo_udn2.jpg')
               },
               {
                   name: '新媒體中心',
                   link: '.',
-                  logo: require('@/../public/images/logo/footer_logo_newmedia_white.svg')
+                  logo: require('@/../public/images/logo/logo_new_media_center2.jpg')
               }
           ]
       }
@@ -68,6 +68,9 @@ export default {
            width: 128px;
            height: 37px;
            color: white;
+           img {
+                width: 100%;
+           }
        }
     }
 }
